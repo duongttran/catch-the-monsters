@@ -23,8 +23,10 @@ let bgReady, heroReady, monsterReady;
 let bgImage, heroImage, monsterImage;
 
 let startTime = Date.now();
-const SECONDS_PER_ROUND = 5;
+let SECONDS_PER_ROUND = 15;
 let elapsedTime = 0;
+
+let isGameOver = true;
 
 function loadImages() {
     bgImage = new Image();
@@ -47,6 +49,7 @@ function loadImages() {
         monsterReady = true;
     };
     monsterImage.src = "images/monster.png";
+    isGameOver = false;
 }
 
 /** 
@@ -58,6 +61,7 @@ function loadImages() {
  * 
  * The same applies to the monster.
  */
+
 
 let heroX = canvas.width / 2;
 let heroY = canvas.height / 2;
@@ -95,11 +99,16 @@ let score = 0;
  */
 let update = function() {
     // Update the time.
+    if (isGameOver) {
+        document.getElementById("gameResult").innerHTML = "You ran out of time!"
+        return;
+    }
 
 
     if (elapsedTime >= SECONDS_PER_ROUND) {
         //if remaining seconds = 0, timer will stop
         // the hero can't not move
+        isGameOver = true;
         return;
     }
 
@@ -147,8 +156,7 @@ let update = function() {
 
         monsterX = Math.floor(Math.random() * (canvas.width - 32))
         monsterY = Math.floor(Math.random() * (canvas.height - 32))
-            //console.log("monsterX", monsterX);
-            //console.log("monsterY", monsterY);
+
         score++;
     }
 };
@@ -179,11 +187,7 @@ var render = function() {
  * render (based on the state of our game, draw the right things)
  */
 var main = function() {
-    if (elapsedTime == SECONDS_PER_ROUND) {
-        //I can see the reset button when timer = 0
-        createResetButton();
-        return;
-    }
+
     update();
     render();
     // Request to do this again ASAP. This is a special method
@@ -201,63 +205,41 @@ loadImages();
 setupKeyboardListeners();
 main();
 
+// function startGame() {
 
-function endGame() {
-
-
-
-
-
+//     //document.getElementById("startButton").remove();
+//     resetGame();
+// }
 
 
-
-
-
-}
-
-document.getElementById("submitButton").addEventListener("click", submitName);
-
+let playerName = '';
 
 function submitName() {
     playerName = document.getElementById("userName").value;
+    console.log(playerName + 'this is my name');
     document.getElementById("nameDisplay").innerHTML = `Hi ${playerName}! Let's play the game!`;
 
     document.getElementById("userName").value = '';
-    //document.getElementById("myForm").reset();
-}
 
-
-function createResetButton() {
-    let btn = document.createElement("button");
-    btn.innerHTML = "reset";
-    document.getElementById("reset-game").appendChild(btn);
-    btn.setAttribute("id", "my-id");
-    //I can press the reset button and start over
-    document.getElementById("my-id").addEventListener("click", resetGame);
-
-    let message = document.createElement("p");
-    message.innerHTML = "You have run out of time!";
-    document.getElementById("reset-game").appendChild(message);
-
-    return;
 }
 
 
 function resetGame() {
     console.log("Reset Game")
-
+    startTime = Date.now();
+    SECONDS_PER_ROUND = 15;
     elapsedTime = 0;
 
-    loadImages();
 
-    setupKeyboardListeners();
-    main();
+    isGameOver = false;
+    document.getElementById("nameDisplay").innerHTML = ``;
+    document.getElementById("gameResult").innerHTML = ""
 
     heroX = canvas.width / 2;
     heroY = canvas.height / 2;
 
-    monsterX = 100;
-    monsterY = 100;
+    monsterX = Math.floor(Math.random() * (canvas.width - 32))
+    monsterY = Math.floor(Math.random() * (canvas.height - 32))
     score = 0;
     return;
 }

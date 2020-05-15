@@ -1,0 +1,45 @@
+    body {
+        font-family: 'Roboto Mono', monospace;
+    }
+    
+    h1 {
+        color: rgb(0, 197, 0);
+    }
+    
+    button {
+        border: greenyellow solid 5px;
+        padding: 12px;
+        background-color: green;
+        color: white;
+        font-size: 14px;
+        font-family: 'Roboto Mono', monospace;
+        transition: .5s;
+    }
+    
+    button:hover {
+        border: green solid 5px;
+        background-color: greenyellow;
+        color: black;
+        transition: .5s;
+    }
+    
+    input {
+        padding: 15px;
+        font-family: 'Roboto Mono', monospace;
+    }
+    
+    canvas {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        display: block;
+    }
+    
+    .extra-space {
+        margin: 20px 0;
+    }
+    
+    #nameDisplay,
+    #gameResult {
+        color: rgb(0, 197, 0);
+    }
