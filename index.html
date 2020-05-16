@@ -25,29 +25,35 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5">
-                <div class="register">
-                    <h2>Rules of the game:</h2>
-                    <ol>
-                        <li>I have 15 seconds to catch as many monsters as I can.</li>
-                        <li>If I catch a monster then another monster is randomly placed on the screen.</li>
-                        <li>I see my score updated when I catch a monster.</li>
-                        <li>
-                            If the timer runs out I cannot move my hero anymore.</li>
-                        <li>If the timer runs out I can press the reset button and start the game over.</li>
-                    </ol>
 
-                    <h2>Enter your name:</h2>
-                    <input type="text" id="userName">
+                <h2>Rules of the game:</h2>
+                <ol>
+                    <li>I have 15 seconds to catch as many monsters as I can.</li>
+                    <li>If I catch a monster then another monster is randomly placed on the screen.</li>
+                    <li>I see my score + 1 when I catch a green monster, + 2 when I catch a moving red monster. </li>
+                    <li>
+                        If the timer runs out I cannot move my hero anymore, he will be fronzen.</li>
+                    <li>If the timer runs out I can press the reset button and start the game over.</li>
+                </ol>
+                <div class="register">
+                    <h3>Enter your name:</h3>
+                    <input type="text" id="userName" maxlength="20">
                     <button id="submitButton" onclick="submitName()">Submit</button>
-                    <h4 class="extra-space" id="nameDisplay">
-                    </h4>
-                    <!-- <button id="startButton" onclick="resetGame()">Start the game!</button> -->
                 </div>
+                <h4 class="extra-space" id="nameDisplay">
+                </h4>
+
+
                 <div id="reset-game">
+                    <div class="button-row">
+                        <button id="startButton" onclick="startGame()" disabled>Start the game!</button>
+                        <button id="my-id" onclick="resetGame()">Reset the game!</button>
+                    </div>
                     <h4 class="extra-space" id="gameResult">
                     </h4>
-                    <button id="my-id" onclick="resetGame()">Reset the game!</button>
+
                 </div>
+                <div id="historyScore"></div>
             </div>
 
             <div class="col-md-7">
