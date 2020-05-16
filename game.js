@@ -15,12 +15,13 @@ let ctx;
 
 canvas = document.createElement("canvas");
 ctx = canvas.getContext("2d");
+
 canvas.width = 512;
 canvas.height = 480;
 document.body.appendChild(canvas);
 
-let bgReady, heroReady, monsterReady;
-let bgImage, heroImage, monsterImage;
+let bgReady, heroReady, monsterReady, monster1Ready;
+let bgImage, heroImage, monsterImage, monster1Image;
 
 let startTime = Date.now();
 let SECONDS_PER_ROUND = 15;
@@ -49,6 +50,14 @@ function loadImages() {
         monsterReady = true;
     };
     monsterImage.src = "images/monster.png";
+
+    monster1Image = new Image();
+    monster1Image.onload = function() {
+        // show the monster image
+        monster1Ready = true;
+    };
+    monster1Image.src = "images/monster1.png";
+
     isGameOver = false;
 }
 
@@ -69,6 +78,8 @@ let heroY = canvas.height / 2;
 let monsterX = 100;
 let monsterY = 100;
 
+let monster1X = 300;
+let monster1Y = 300;
 /** 
  * Keyboard Listeners
  * You can safely ignore this part, for now. 
@@ -91,6 +102,22 @@ function setupKeyboardListeners() {
 
 
 let score = 0;
+
+
+//Score history and max score
+let scores = [];
+let maxScore = 0;
+let i = -1;
+
+// if (elapsedTime == SECONDS_PER_ROUND) {
+
+//     // maxScore = Math.max(...scores);
+
+//     // return;
+// }
+
+
+
 /**
  *  Update game objects - change player position based on key pressed
  *  and check to see if the monster has been caught!
@@ -100,7 +127,16 @@ let score = 0;
 let update = function() {
     // Update the time.
     if (isGameOver) {
+
+        heroImage.src = "images/hero-frozen.png";
+        ctx.fillStyle = "white";
+
         document.getElementById("gameResult").innerHTML = "You ran out of time!"
+        scores.push(score);
+        document.getElementById("historyScore").innerHTML = `History of you scores: ${score}`;
+        if (13 in keysDown) {
+            resetGame();
+        }
         return;
     }
 
@@ -113,6 +149,10 @@ let update = function() {
     }
 
     elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+
+    if (13 in keysDown) {
+        resetGame();
+    }
 
     if (38 in keysDown) { // Player is holding up key
         if (heroY <= 0) {
@@ -143,6 +183,7 @@ let update = function() {
         }
     }
 
+
     // Check if player and monster collided. Our images
     // are about 32 pixels big.
     if (
@@ -159,6 +200,45 @@ let update = function() {
 
         score++;
     }
+
+    if (monster1Y <= 0) {
+        monster1Y = 480;
+    }
+
+    if (monster1Y >= 480) {
+        monster1Y = 0;
+    }
+    monster1Y += 3;
+
+
+    if (monster1X <= 0) {
+        monster1X = 512;
+    }
+
+    if (monster1X >= 512) {
+        monster1X = 0;
+    }
+    monster1X += 3;
+
+
+
+
+    if (
+        heroX <= (monster1X + 32) &&
+        monster1X <= (heroX + 32) &&
+        heroY <= (monster1Y + 32) &&
+        monster1Y <= (heroY + 32)
+    ) {
+        // Pick a new location for the monster.
+        // Note: Change this to place the monster at a new, random location.
+
+        monster1X = Math.floor(Math.random() * (canvas.width - 32))
+        monster1Y = Math.floor(Math.random() * (canvas.height - 32))
+
+        score = score + 2;
+    }
+
+
 };
 
 /**
@@ -176,8 +256,15 @@ var render = function() {
         ctx.drawImage(monsterImage, monsterX, monsterY);
     }
 
-    ctx.fillText(`Monster catched: ${score}`, 20, 40);
-    ctx.fillText(`Seconds Remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 20, 20);
+    if (monster1Ready) {
+        ctx.drawImage(monster1Image, monster1X, monster1Y);
+    }
+
+
+
+    ctx.fillText(`Seconds Remaining: ${SECONDS_PER_ROUND - elapsedTime}`, 20, 30);
+    ctx.fillText(`Monster catched: ${score}`, 20, 45);
+    //ctx.fillText(`Max Monster catched: ${maxScore}`, 20, 60);
 
 };
 
@@ -201,24 +288,28 @@ var w = window;
 requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
 
 // Let's play this game!
+
 loadImages();
 setupKeyboardListeners();
 main();
 
-// function startGame() {
+function startGame() {
 
-//     //document.getElementById("startButton").remove();
-//     resetGame();
-// }
-
+    resetGame();
+    document.getElementById("startButton").style.display = "none";
+    document.getElementsByClassName("register")[0].style.display = "none";
+}
 
 let playerName = '';
+
 
 function submitName() {
     playerName = document.getElementById("userName").value;
     console.log(playerName + 'this is my name');
-    document.getElementById("nameDisplay").innerHTML = `Hi ${playerName}! Let's play the game!`;
+    document.getElementById("nameDisplay").innerHTML = `
+    Hi ${playerName}!Let 's play the game!`;
 
+    document.getElementById("startButton").disabled = false;
     document.getElementById("userName").value = '';
 
 }
@@ -226,10 +317,23 @@ function submitName() {
 
 function resetGame() {
     console.log("Reset Game")
+    document.getElementById("startButton").disabled = true;
+    document.getElementById("startButton").style.display = "block";
+    document.getElementsByClassName("register")[0].style.display = "block";
+
+
     startTime = Date.now();
     SECONDS_PER_ROUND = 15;
     elapsedTime = 0;
 
+    ctx.fillStyle = "black";
+
+    heroImage = new Image();
+    heroImage.onload = function() {
+        // show the hero image
+        heroReady = true;
+    };
+    heroImage.src = "images/hero.png";
 
     isGameOver = false;
     document.getElementById("nameDisplay").innerHTML = ``;
@@ -240,6 +344,9 @@ function resetGame() {
 
     monsterX = Math.floor(Math.random() * (canvas.width - 32))
     monsterY = Math.floor(Math.random() * (canvas.height - 32))
+
+    monster1X = Math.floor(Math.random() * (canvas.width - 32))
+    monster1Y = Math.floor(Math.random() * (canvas.height - 32))
     score = 0;
     return;
 }
