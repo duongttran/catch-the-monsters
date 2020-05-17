@@ -130,6 +130,7 @@ let update = function() {
         heroImage.src = "images/hero-frozen.png";
         ctx.fillStyle = "white";
 
+
         document.getElementById("gameResult").innerHTML = "You ran out of time!"
 
 
@@ -207,6 +208,9 @@ let update = function() {
         monsterX = Math.floor(Math.random() * (canvas.width - 32))
         monsterY = Math.floor(Math.random() * (canvas.height - 32))
 
+        //play hit sound
+        document.getElementById("monster-green").play();
+
         score++;
     }
 
@@ -243,6 +247,8 @@ let update = function() {
 
         monster1X = Math.floor(Math.random() * (canvas.width - 32))
         monster1Y = Math.floor(Math.random() * (canvas.height - 32))
+
+        document.getElementById("monster2").play();
 
         score = score + 2;
     }

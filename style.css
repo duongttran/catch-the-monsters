@@ -67,3 +67,8 @@
         margin-bottom: 30px 0px;
         display: block;
     } */
+    
+    .emphasis {
+        color: rgb(0, 197, 0);
+        font-weight: 600;
+    }

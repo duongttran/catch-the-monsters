@@ -28,11 +28,12 @@
 
                 <h2>Rules of the game:</h2>
                 <ol>
-                    <li>I have 5 seconds to catch as many monsters as I can.</li>
+                    <li>I have 5 seconds to catch as many monsters as I can (and hit
+                        <span class="emphasis">Enter</span> to reset the game faster).</li>
                     <li>If I catch a monster then another monster is randomly placed on the screen.</li>
-                    <li>I see my score + 1 when I catch a green monster, + 2 when I catch a moving red monster. </li>
+                    <li>I see my score + 1 when I catch a <img src="images/monster.png">, + 2 when I catch a moving <img src="images/monster1.png">. </li>
                     <li>
-                        If the timer runs out I cannot move my hero anymore, he will be fronzen.</li>
+                        If the timer runs out I cannot move my hero anymore, he will be fronzen <img src="images/hero-frozen.png">.</li>
                     <li>If the timer runs out I can press the reset button and start the game over.</li>
                 </ol>
                 <div class="register">
@@ -42,7 +43,20 @@
                 </div>
                 <h4 class="extra-space" id="nameDisplay">
                 </h4>
+                <audio id="monster-green">
+                    <source src="sounds/hit.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                  </audio>
 
+                <audio id="monster2">
+                    <source src="sounds/monster2.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                  </audio>
+
+                <!-- <audio id="hero-scream">
+                    <source src="sounds/hero-scream.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                  </audio> -->
 
                 <div id="reset-game">
                     <div class="button-row">
