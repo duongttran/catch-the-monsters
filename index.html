@@ -28,7 +28,7 @@
 
                 <h2>Rules of the game:</h2>
                 <ol>
-                    <li>I have 15 seconds to catch as many monsters as I can.</li>
+                    <li>I have 5 seconds to catch as many monsters as I can.</li>
                     <li>If I catch a monster then another monster is randomly placed on the screen.</li>
                     <li>I see my score + 1 when I catch a green monster, + 2 when I catch a moving red monster. </li>
                     <li>
@@ -46,14 +46,17 @@
 
                 <div id="reset-game">
                     <div class="button-row">
-                        <button id="startButton" onclick="startGame()" disabled>Start the game!</button>
-                        <button id="my-id" onclick="resetGame()">Reset the game!</button>
+                        <!-- <button id="startButton" onclick="startGame()" disabled>Start!</button> -->
+                        <button id="my-id" onclick="resetGame()">Reset!</button>
+                        <!-- <button id="btn-scoreboard" onclick="showScores()">Best Score</button> -->
                     </div>
                     <h4 class="extra-space" id="gameResult">
                     </h4>
 
                 </div>
-                <div id="historyScore"></div>
+                <div id="previousScore"></div>
+                <!-- <div id="historyScore"></div> -->
+                <div id="bestScore"></div>
             </div>
 
             <div class="col-md-7">
